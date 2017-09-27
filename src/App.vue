@@ -133,7 +133,10 @@
             return this.subTotal * 0.95;
             break;
           case 3:
-            return this.subTotal * 0.90;
+            return this.subTotal * 0.9;
+            break;
+          case 4:
+            return this.subTotal * 0.8;
             break;
         }
         return this.subTotal;
