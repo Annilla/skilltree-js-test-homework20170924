@@ -52,6 +52,14 @@
                 </v-layout>
                 <v-layout>
                   <v-flex xs6>
+                    總共書本數:
+                  </v-flex>
+                  <v-flex xs6 class="text-xs-right">
+                    <div>{{ totalBook }}</div> 
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex xs6>
                     總金額:
                   </v-flex>
                   <v-flex xs6 class="text-xs-right">
@@ -116,11 +124,19 @@
         });
         return newList.length;
       },
+      // 總共書本數
+      totalBook () {
+        let sumBook = 0;
+        this.bookList.forEach(function(book) {
+          sumBook = sumBook + book.number
+        });
+        return sumBook;
+      },
       // 總金額
       subTotal () {
         let total = 0;
 
-        this.bookList.forEach(function(book, index) {
+        this.bookList.forEach(function(book) {
           total = total + book.price * book.number
         });
 
@@ -130,15 +146,27 @@
       total () {
         switch (this.totalBookVer) {
           case 2:
+            if (this.totalBook > 2) {
+              return (2*0.95+(this.totalBook-2))*100;
+            }
             return this.subTotal * 0.95;
             break;
           case 3:
+            if (this.totalBook > 3) {
+              return (3*0.9+(this.totalBook-3))*100;
+            }
             return this.subTotal * 0.9;
             break;
           case 4:
+            if (this.totalBook > 4) {
+              return (4*0.8+(this.totalBook-4))*100;
+            }
             return this.subTotal * 0.8;
             break;
           case 5:
+            if (this.totalBook > 5) {
+              return (5*0.75+(this.totalBook-5))*100;
+            }
             return this.subTotal * 0.75;
             break;
         }
