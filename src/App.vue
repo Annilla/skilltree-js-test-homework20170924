@@ -44,6 +44,14 @@
               <v-container fluid grid-list-lg>
                 <v-layout>
                   <v-flex xs6>
+                    不同的書:
+                  </v-flex>
+                  <v-flex xs6 class="text-xs-right">
+                    <div>{{ totalBookVer }}</div> 
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex xs6>
                     總金額:
                   </v-flex>
                   <v-flex xs6 class="text-xs-right">
@@ -101,6 +109,14 @@
       }
     },
     computed: {
+      // 幾本不同的書
+      totalBookVer () {
+        let newList = this.bookList.filter(function (book) {
+          return book.number > 0;
+        });
+        return newList.length;
+      },
+      // 總金額
       subTotal () {
         let total = 0;
 
@@ -110,7 +126,11 @@
 
         return total;
       },
+      // 折扣後金額
       total () {
+        if (this.totalBookVer === 2) {
+          return this.subTotal * 0.95;
+        }
         return this.subTotal;
       }
     },
