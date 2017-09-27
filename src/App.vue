@@ -33,7 +33,7 @@
                   <v-icon>remove</v-icon>
                 </v-btn>
                 <div class="black--text">{{ book.number }}</div>
-                <v-btn icon @click="addBook(index)">
+                <v-btn icon :id="'addBtn'+(index+1)" @click="addBook(index)">
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -47,7 +47,15 @@
                     總金額:
                   </v-flex>
                   <v-flex xs6 class="text-xs-right">
-                    0
+                    <div>{{ subTotal }}</div> 
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex xs6>
+                    折扣後金額:
+                  </v-flex>
+                  <v-flex xs6 class="text-xs-right">
+                    <div id="total">{{ total }}</div> 
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -90,6 +98,20 @@
             price: 100
           }
         ]
+      }
+    },
+    computed: {
+      subTotal () {
+        let total = 0;
+
+        this.bookList.forEach(function(book, index) {
+          total = total + book.price * book.number
+        });
+
+        return total;
+      },
+      total () {
+        return this.subTotal;
       }
     },
     methods: {
