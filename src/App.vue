@@ -138,6 +138,9 @@
           case 4:
             return this.subTotal * 0.8;
             break;
+          case 5:
+            return this.subTotal * 0.75;
+            break;
         }
         return this.subTotal;
       }
