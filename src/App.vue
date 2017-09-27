@@ -128,8 +128,13 @@
       },
       // 折扣後金額
       total () {
-        if (this.totalBookVer === 2) {
-          return this.subTotal * 0.95;
+        switch (this.totalBookVer) {
+          case 2:
+            return this.subTotal * 0.95;
+            break;
+          case 3:
+            return this.subTotal * 0.90;
+            break;
         }
         return this.subTotal;
       }
