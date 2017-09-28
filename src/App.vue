@@ -13,7 +13,7 @@
                   <v-flex xs7>
                     <div>
                       <div class="headline">{{ book.name }}</div>
-                      <div class="subheading">{{ book.price }} 元 / 本</div>
+                      <div class="subheading">{{ bookPrice }} 元 / 本</div>
                       
                     </div>
                   </v-flex>
@@ -87,31 +87,53 @@
   export default {
     data () {
       return {
+        bookPrice: 100,
         bookList: [
           {
             name: '第1集',
-            number: 0,
-            price: 100
+            number: 0
           },
           {
             name: '第2集',
-            number: 0,
-            price: 100
+            number: 0
           },
           {
             name: '第3集',
-            number: 0,
-            price: 100
+            number: 0
           },
           {
             name: '第4集',
-            number: 0,
-            price: 100
+            number: 0
           },
           {
             name: '第5集',
-            number: 0,
-            price: 100
+            number: 0
+          }
+        ],
+        discount: [
+          {
+            ver: 0,
+            rate: 1
+          },
+          {
+            ver: 1,
+            rate: 1
+          },
+          {
+            ver: 2,
+            rate: 0.95
+          },
+          {
+            ver: 3,
+            rate: 0.9
+          },
+          {
+            ver: 4,
+            rate: 0.8
+          },
+          {
+            ver: 5,
+            rate: 0.75
           }
         ]
       }
@@ -137,40 +159,18 @@
         let total = 0;
 
         this.bookList.forEach(function(book) {
-          total = total + book.price * book.number
-        });
+          total = total + this.bookPrice * book.number
+        }, this);
 
         return total;
       },
       // 折扣後金額
       total () {
-        switch (this.totalBookVer) {
-          case 2:
-            if (this.totalBook > 2) {
-              return (2*0.95+(this.totalBook-2))*100;
-            }
-            return this.subTotal * 0.95;
-            break;
-          case 3:
-            if (this.totalBook > 3) {
-              return (3*0.9+(this.totalBook-3))*100;
-            }
-            return this.subTotal * 0.9;
-            break;
-          case 4:
-            if (this.totalBook > 4) {
-              return (4*0.8+(this.totalBook-4))*100;
-            }
-            return this.subTotal * 0.8;
-            break;
-          case 5:
-            if (this.totalBook > 5) {
-              return (5*0.75+(this.totalBook-5))*100;
-            }
-            return this.subTotal * 0.75;
-            break;
-        }
-        return this.subTotal;
+        let config = this.discount.filter(function(obj){
+          return obj.ver === this.totalBookVer;
+        }, this);
+
+        return (config[0].ver * config[0].rate + (this.totalBook-config[0].ver)) * this.bookPrice;
       }
     },
     methods: {
